@@ -1,0 +1,36 @@
+.font-styles {
+  font-family: "Source Code Pro", Consolas, monaco, monospace;
+  font-size: 18px;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+body{
+  position: relative;
+  font-family: "Source Code Pro", Consolas, monaco, monospace;
+  font-size: 18px;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #7AC143;
+  background-color:  #eee;
+  padding: 20px;
+}
+
+.layer1{
+  position: absolute;
+  z-index: 2;
+  opacity: 0.8;
+  top: 0px;
+}
+
+.layer2{
+  position: absolute;
+  z-index: 1;
+  top: 0px;
+}
+
+
+h4 {
+  font-size: 18px;
+  z-index: 1;
+}
