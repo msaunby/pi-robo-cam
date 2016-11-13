@@ -11,9 +11,13 @@ var csvIn = csv({objectMode: true});
 
 var parser = new Transform({objectMode: true});
 
+var xyz = {x:0,y:0,z:0};
+
 parser._transform = function(data, encoding, done) {
-  //this.push("row " + data[0] + ":" + data[1] + "\n");
-  io.emit('xyz', { x:data[0], y:data[1], z:data[2] });
+
+  xyz.x = Number(data[0]);
+  xyz.y = Number(data[1]);
+  xyz.z = Number(data[2]);
   done();
 };
 
@@ -26,14 +30,9 @@ io.on('connection', function(socket){
 const spawn = require('child_process').spawn;
 const accel = spawn('../accel_stream', []);
 
-//accel.stdout.on('data', (data) => {
-//    console.log(`stdout: ${data}`);
-//});
-    
 accel.stdout
 .pipe(csvIn)
 .pipe(parser);
-//.pipe(process.stdout);
 
 
 
@@ -41,13 +40,8 @@ var counter = 0;
 // start interval timer.
 var interval = setInterval( function() {
     //console.log('timer', counter);
-    //io.emit('timer', { for: 'everyone', count: counter });
-    counter++;
-    if (counter >= 20000) {
-	clearInterval(interval);
-	console.log('ending counter');
-    }
-}, 100);
+    io.emit('xyz', xyz);
+}, 250);
 
 http.listen(3000, function(){
   console.log('listening on *:3000');
