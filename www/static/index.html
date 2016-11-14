@@ -48,19 +48,23 @@ horizon = svg.append("line").attr("class", "horizon");
 
 var ease = d3.ease("cubic-in-out"),
     duration = 7500;
+var prevTilt = 0, prevAngle = 0;
 
 d3.timer(function(elapsed) {
-  //var t = ease(1 - Math.abs((elapsed % duration) / duration - .5) * 2);
-  //var startAngle = -Math.PI * 2 * t;
+//var t = ease(1 - Math.abs((elapsed % duration) / duration - .5) * 2);
   var startAngle = (xyz.z)/180.0 * Math.PI; 
   var tiltAngle = (xyz.y)/180.0 * Math.PI; 
 
+  tiltAngle = (tiltAngle +2.0*prevTilt)/3.0;		 
+  startAngle = (startAngle + 2.0*prevAngle)/3.0;						      
+						      
   var h = [200*Math.cos(startAngle), 200*Math.sin(startAngle)];
   var f = 200*Math.sin(tiltAngle);
+  prevTilt = tiltAngle;
+  prevAngle = startAngle;		  
 
   horizon.attr("x1", h[0]).attr("y1", h[1]).attr("x2", -h[0]).attr("y2", -h[1]);
   fixed.attr("x1", -200).attr("y1", f).attr("x2", 200).attr("y2", f);
-
 });
 
 
